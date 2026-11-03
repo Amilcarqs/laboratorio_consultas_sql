@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<html lang="es">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/vendor/orangeline/css/orangeline.min.css" />
+    <!-- /CSS -->
+
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="assets/favicons/manifest.json">
+    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+    <!-- /FAVICONS -->
+
+    <title>El misterio del asesinato SQL</title>
+    <!-- Meta -->
+    <meta name="keywords" content="SQL, bases de datos, juego, diversión">
+    <meta name="description" content="Usa consultas SQL para resolver el misterio del asesinato. Ideal tanto para principiantes como para expertos en SQL.">
+    <!-- /Meta -->
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="El misterio del asesinato SQL" />
+    <meta property="og:description" content="Usa consultas SQL para resolver el misterio del asesinato. Ideal tanto para principiantes como para expertos en SQL." />
+    <meta property="og:image" content="174092-clue-illustration.png" />
+    <meta property="og:site_name" content="El misterio del asesinato SQL de Knight Lab" />
+    <meta property="fb:app_id" content="2361935160801585" />
+    <!-- /Open Graph -->
+
+    <!-- Twitter Card -->
+    <meta name="twitter:title" content="El misterio del asesinato SQL de Knight Lab">
+    <meta name="twitter:description" content="Usa consultas SQL para resolver el misterio del asesinato. Ideal tanto para principiantes como para expertos en SQL.">
+    <meta name="twitter:image" content="174092-clue-illustration.png">
+    <meta name="twitter:site" content="@knightlab">
+    <!-- /Twitter Card -->
+
+    <link rel="stylesheet" href="assets/vendor/codemirror/css/codemirror.min.css">
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/neat.css" />
+    <link rel="stylesheet" href="css/offline.css" />
+
+    <script src="assets/vendor/webcomponents/custom-elements.min.js"></script>
+    <script src="scripts/codemirror.js"></script>
+    <script src="scripts/codemirrorsql.js"></script>
+    <script src="scripts/autorefresh.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
+        window.onload = () => loadData('sql-murder-mystery.db');
+    </script>
+
+    <title>El misterio del asesinato SQL</title>
+</head>
+
+<body>
+    <nav id="navbar-product-top" class="navbar navbar-dark">
+        <ul>
+            <li class="logo">
+                <img src="assets/img/knightlab-dark.png" alt="Knight Lab" />
+            </li>
+        </ul>
+        <div class="nav-mobile-menu">
+            <button class="button-plain">
+        <span class="icon-menu"></span>
+      </button>
+        </div>
+        <ul class="nav-right navbar-nav">
+
+
+            <li><span class="button button-dark button-small-tablet button-active">Proyectos</span></li>
+
+            <li><span class="button button-dark button-small-tablet">Estudio</span></li>
+
+            <li><span class="button button-dark button-small-tablet">Noticias locales</span></li>
+
+            <li><span class="button button-dark button-small-tablet">Publicaciones</span></li>
+
+            <li><span class="button button-dark button-small-tablet">Comunidad</span></li>
+
+        </ul>
+    </nav>
+
+    <header class="header-product">
+        <h1 class="product-logo product-logo-large">
+            El misterio del asesinato SQL
+        </h1>
+        <h2 class="product-tagline">¿Puedes descubrir quién fue?</h2>
+    </header>
+
+    <div class="container">
+
+        <div id="intro" class="grid">
+            <div class="grid-item">
+                <img src="174092-clue-illustration.png" class="img-rounded" alt="Ilustración decorativa de un detective que observa un panel de pruebas.">
+                <p>
+                    ¡Ha ocurrido un asesinato en Ciudad SQL! El misterio del asesinato SQL está diseñado tanto como una lección autodidacta para aprender conceptos y comandos de SQL como un juego entretenido para que usuarios con experiencia resuelvan un intrigante crimen.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="grid-item">
+                <h2>¿No conoces SQL?</h2>
+                <p>
+                    Este ejercicio está pensado más como una forma de practicar tus habilidades con SQL que como un tutorial completo. Si nunca has usado SQL, <a href="walkthrough.html">prueba la guía paso a paso</a>. Si de verdad quieres aprender mucho sobre SQL, quizá prefieras un tutorial completo como Select Star SQL.
+
+                </p>
+                <p>Si ya te sientes cómodo con SQL, ¡puedes <a href="#experienced">empezar aquí</a>!</p>
+            </div>
+        </div>
+
+
+        <div class="grid">
+            <div class="grid-item">
+                <h2 id="experienced">Si ya tienes experiencia con SQL, empieza aquí</h2>
+                <p>
+                    Se ha cometido un crimen y el detective necesita tu ayuda. Te entregó el informe de la escena del crimen, pero de algún modo lo perdiste. Recuerdas vagamente que fue un <strong>​asesinato​</strong> ocurrido en algún momento del ​<strong>15 de enero de 2018​</strong>                    en ​<strong>SQL City​</strong>. Empieza por recuperar el informe correspondiente de la base de datos del departamento de policía.
+                </p>
+
+                <h3>Explorar la estructura de la base de datos</h3>
+
+                <p>
+                    Quienes tienen experiencia con SQL suelen poder inferir la estructura de una base de datos mediante consultas. Sin embargo, cada sistema de bases de datos administra esta información de manera distinta. El misterio del asesinato SQL usa SQLite. Ejecuta este comando SQL para encontrar las tablas de la base de datos del misterio.
+                </p>
+
+                <sql-exercise data-question="Ejecuta esta consulta para encontrar los nombres de las tablas de esta base de datos." data-comment="Este comando es específico de SQLite. Para otras bases de datos, tendrás que aprender la sintaxis correspondiente." data-default-text="SELECT name 
+  FROM sqlite_master
+ where type = 'table'"></sql-exercise>
+
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="grid-item">
+                <p>
+                    Además de conocer los nombres de las tablas, necesitas saber cómo está estructurada cada una. El procedimiento también depende de la tecnología de base de datos que uses. Así se hace en SQLite.
+                </p>
+
+                <sql-exercise data-question="Ejecuta esta consulta para ver la estructura de la tabla `crime_scene_report`." data-comment="Cambia el valor de 'name' para ver la estructura de las otras tablas que encontraste con la consulta anterior." data-default-text="SELECT sql 
+  FROM sqlite_master
+ where name = 'crime_scene_report'"></sql-exercise>
+
+            </div>
+        </div>
+
+
+        <div class="grid">
+            <div class="grid-item">
+                <h3>¡Ahora te toca a ti!</h3>
+                <p>
+                    Si ya tienes bastante experiencia con SQL, probablemente puedas continuar por tu cuenta.
+                </p>
+                <p>
+                    Pero <a id="show-schema">haz clic aquí</a> para mostrar el diagrama del esquema.
+                    <img id="experienced-schema" src="schema.png" width='1002' height='491'>
+                </p>
+                <p>
+                    También puedes consultar la <a href="walkthrough.html">guía paso a paso</a>.
+                </p>
+
+                <sql-exercise data-question="Usa tus conocimientos sobre el esquema de la base de datos y los comandos SQL para descubrir quién cometió el asesinato." data-comment="Cuando creas saber la respuesta, ve a la siguiente sección." data-default-text="
+              
+              
+
+
+
+              "></sql-exercise>
+                <!-- newlines in data-default-text force input to be larger -->
+            </div>
+        </div>
+
+        <div id="check-solution" class="grid">
+            <div class="grid-item">
+                <h3>Comprueba tu solución</h3>
+                <sql-exercise data-question="¿Encontraste al culpable?" data-comment="" data-default-text="INSERT INTO solution VALUES (1, 'Escribe aquí el nombre de la persona que encontraste');
+        
+        SELECT value FROM solution;"></sql-exercise>
+            </div>
+        </div>
+
+        <div id="credits" class="grid">
+            <div class="grid-item">
+                <h3>Créditos</h3>
+                <p>El misterio del asesinato SQL fue creado por Joon Park y Cathy He cuando eran becarios de Knight Lab. Consulta el repositorio de GitHub para obtener más información.</p>
+                <p>Adaptado y producido para la web por Joe Germuska.</p>
+                <p>Este misterio se inspiró en un crimen en la vecina Ciudad Terminal.</p>
+                <p>SQL en la web es posible gracias a SQL.js.</p>
+                <p>Los componentes web personalizados para consultas SQL fueron creados y publicados en el dominio público por Zi Chong Kao, creador de Select Star SQL.</p>
+                <p>Ilustración del detective cortesía de Vectores de Vecteezy.</p>
+                <p>El código original de este proyecto se publica bajo la licencia MIT.</p>
+                <p>El texto original y el resto del contenido de este proyecto se publican bajo Creative Commons CC BY-SA 4.0.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-knightlab--dark">
+        <div class="container">
+            <div class='grid grid-center'>
+                <div class='column-2 column-4-phone column-4-tablet'>
+                    <img src="assets/img/logo-knightlab-stacked-dark-small.png" alt="Knight Lab" style="margin-left:auto;">
+                </div>
+                <div class='column-4 column-5-tablet column-6-phone footer-description'>
+                    <p>
+                        Knight Lab, de la Universidad Northwestern, es un equipo de tecnólogos y periodistas que impulsa la innovación en los medios de comunicación mediante la exploración y la experimentación.
+                    </p>
+                    <div class="grid-size-2 grid-size-2-phone">
+                        <div class="grid-item">
+                            <img src="assets/img/logo-medill-dark.png" alt="Escuela Medill">
+                        </div>
+
+                        <div class="grid-item">
+                            <img src="assets/img/logo-mccormick-dark.png" alt="Escuela de Ingeniería McCormick">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-center">
+                <div class="grid-item">
+                    <address>
+            <span style="display:none;" itemprop="name"
+              title="Knight Lab | Impulsando la innovación en los medios mediante la exploración y la experimentación."
+              class="address-name">Knight Lab</span>
+            <span itemprop="tel" class="tel">(847) 467-4971</span>
+            <span class="address">
+              <span itemprop="street-address" class="street-address">1845 Sheridan Road</span>
+              <span class="room-num">Fisk #109 &amp; #111</span>
+              <div class="address-group">
+                <span itemprop="locality">Evanston,</span> <span itemprop="region">IL</span> <span
+                  itemprop="postal-code">60208 </span>
+              </div>
+            </span>
+          </address>
+                    <span class="copyright">© Derechos de autor 2019 Universidad Northwestern</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/vendor/orangeline/js/orangeline.js"></script>
+    <script type="text/javascript">
+        document.querySelector('#show-schema').addEventListener('click', function() {
+            document.querySelector('#experienced-schema').classList.add('show');
+        })
+    </script>
+
+</body>
+
+</html>
