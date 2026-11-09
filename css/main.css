@@ -134,3 +134,471 @@ sql-exercise .sqlExInputArea input {
 #experienced-schema.show {
     display: block;
 }
+
+/* Visual refresh */
+:root {
+    --ink: #17212b;
+    --muted: #5d6b78;
+    --paper: #f7f3eb;
+    --surface: #fffdf8;
+    --surface-muted: #eee8dc;
+    --line: #d8cdbb;
+    --accent: #bd4b2d;
+    --accent-dark: #84351f;
+    --gold: #c58a27;
+    --navy: #182b3a;
+    --shadow: 0 16px 38px rgba(24, 43, 58, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at 8% 12%, rgba(197, 138, 39, 0.08), transparent 24rem),
+        var(--paper);
+    font-family: "Segoe UI", Arial, sans-serif;
+    line-height: 1.65;
+    transition: background-color 180ms ease, color 180ms ease;
+}
+
+a {
+    color: var(--accent-dark);
+    font-weight: 650;
+    text-underline-offset: 3px;
+}
+
+a:hover,
+a:focus-visible {
+    color: var(--accent);
+}
+
+:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+}
+
+.theme-toggle {
+    align-items: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 999px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-size: 0.82rem;
+    gap: 0.45rem;
+    margin-left: 0.5rem;
+    padding: 0.45rem 0.75rem;
+    position: absolute;
+    right: clamp(1rem, 4vw, 4rem);
+    top: 1.25rem;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.header-product {
+    background:
+        linear-gradient(135deg, rgba(24, 43, 58, 0.87), rgba(72, 39, 31, 0.78)),
+        url("../174092-clue-illustration.png") center 35% / cover;
+    border-bottom: 1px solid rgba(197, 138, 39, 0.5);
+    color: #fff;
+    padding: clamp(4rem, 10vw, 8rem) 1rem clamp(3rem, 7vw, 5rem);
+    position: relative;
+    text-align: center;
+}
+
+.database-logo {
+    display: block;
+    height: clamp(72px, 12vw, 112px);
+    margin: 0 auto 1.25rem;
+    width: auto;
+}
+
+.institution-label {
+    color: #fff;
+    font-size: clamp(0.75rem, 1.7vw, 1rem);
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    margin: 0 auto 1.25rem;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.75);
+}
+
+.header-product::after {
+    color: rgba(255, 255, 255, 0.72);
+    content: "CASE FILE · SQL CITY";
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    position: absolute;
+    right: clamp(1rem, 5vw, 5rem);
+    top: 1.5rem;
+}
+
+.product-logo,
+.product-tagline {
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.header-product .product-logo {
+    color: #fff !important;
+    font-size: clamp(2.2rem, 6vw, 4.8rem);
+    letter-spacing: -0.035em;
+    margin: 0 auto 0.75rem;
+    max-width: 900px;
+    text-shadow: 0 3px 14px rgba(0, 0, 0, 0.3);
+}
+
+.header-product .product-tagline {
+    color: #fff2c9 !important;
+    font-size: clamp(1.05rem, 2vw, 1.45rem);
+    font-style: italic;
+    margin: 0;
+}
+
+.container {
+    max-width: 1080px;
+    padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+.container > .grid {
+    margin: clamp(1.25rem, 3vw, 2.5rem) 0;
+}
+
+.container > .grid:first-child {
+    margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+body > .container > .grid > .grid-item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(24, 43, 58, 0.05);
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+#intro .grid-item {
+    align-items: center;
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    grid-template-columns: minmax(180px, 0.8fr) 1.2fr;
+}
+
+#intro img {
+    border: 6px solid var(--surface);
+    box-shadow: var(--shadow);
+    max-height: 270px;
+    object-fit: cover;
+    width: 100%;
+}
+
+h2,
+h3,
+h4,
+h5 {
+    color: var(--navy);
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: clamp(1.65rem, 3vw, 2.3rem);
+}
+
+h3 {
+    font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+}
+
+code {
+    background: var(--surface-muted);
+    border-radius: 4px;
+    color: var(--accent-dark);
+    padding: 0.1em 0.35em;
+}
+
+sql-exercise .sqlExHomeDiv {
+    background: var(--surface-muted);
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--accent);
+    border-radius: 12px;
+    box-shadow: none;
+    margin: 1.5rem 0;
+    padding: 1rem;
+}
+
+sql-exercise .sqlExQuestion {
+    color: var(--navy);
+    font-size: 1.05rem;
+    line-height: 1.4;
+}
+
+sql-exercise .sqlExComment {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-top: 0.35rem;
+}
+
+sql-exercise .CodeMirror {
+    background: #fff;
+    border: 1px solid #b8c2c9;
+    border-radius: 8px;
+    color: #17212b;
+    font-size: 0.95rem;
+    margin: 1rem 0;
+    min-height: 92px;
+}
+
+sql-exercise .CodeMirror-gutters {
+    background: #e8edf0;
+    border-right: 1px solid #c4cdd2;
+    min-width: 3.2em;
+}
+
+sql-exercise .CodeMirror-linenumber {
+    color: #596873;
+    min-width: 2.4em;
+    padding: 0 0.45em 0 0.25em;
+    text-align: right;
+}
+
+sql-exercise .CodeMirror-lines {
+    padding: 0.7rem 0.75rem;
+}
+
+sql-exercise .CodeMirror pre.CodeMirror-line,
+sql-exercise .CodeMirror pre.CodeMirror-line-like {
+    padding-left: 0.35rem;
+}
+
+sql-exercise .sqlExInputArea input,
+sql-quiz .sqlQuizInputArea input {
+    background: var(--accent);
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin: 0.35rem 0.45rem 0.35rem 0;
+    padding: 0.65rem 0.9rem;
+}
+
+sql-exercise .sqlExInputArea input:hover,
+sql-quiz .sqlQuizInputArea input:hover {
+    background: var(--accent-dark);
+}
+
+sql-exercise .sqlExInputArea input[type="button"] {
+    background: var(--navy);
+}
+
+sql-exercise .sqlExOutputArea {
+    background: var(--surface);
+    border-radius: 8px;
+    margin-top: 0.75rem;
+    max-width: 100%;
+    padding: 0.75rem;
+}
+
+sql-exercise .returnOkay,
+sql-exercise .returnError {
+    border-radius: 7px;
+    padding: 0.5rem 0.75rem;
+}
+
+sql-exercise .returnOkay {
+    background: rgba(39, 126, 91, 0.12);
+    color: #1d694d;
+}
+
+sql-exercise .returnError {
+    background: rgba(189, 75, 45, 0.12);
+    color: #9c351f;
+}
+
+.datatable {
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    display: block;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+    max-width: 100%;
+    overflow: auto;
+    width: max-content;
+}
+
+.datatable thead {
+    background: var(--navy);
+    color: #fff;
+}
+
+.datatable thead,
+.datatable td {
+    border-color: var(--line);
+    padding: 0.5rem 0.7rem;
+}
+
+#experienced-schema,
+.grid-item > img[src="schema.png"] {
+    background: var(--surface-muted);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    height: auto;
+    margin-top: 1rem;
+    max-width: 100%;
+    padding: 0.5rem;
+}
+
+#experienced-schema.show {
+    display: block;
+}
+
+#show-schema {
+    background: none;
+    border: 0;
+    color: var(--accent-dark);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 650;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.site-footer {
+    align-items: center;
+    background: var(--navy);
+    border-top: 3px solid var(--gold);
+    color: #fff;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 4rem;
+    padding: 1.25rem 1rem;
+}
+
+.site-footer img {
+    height: 48px;
+    width: 48px;
+}
+
+.site-footer div {
+    display: flex;
+    flex-direction: column;
+}
+
+.site-footer strong {
+    color: #f3d9a1;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+}
+
+.site-footer span {
+    color: #dce5e9;
+    font-size: 0.9rem;
+}
+
+body.theme-dark {
+    --ink: #e7edf0;
+    --muted: #b7c3ca;
+    --paper: #10191f;
+    --surface: #18262f;
+    --surface-muted: #22343e;
+    --line: #3a4b55;
+    --accent: #e77a5b;
+    --accent-dark: #ff9a7c;
+    --gold: #e2b65f;
+    --navy: #0c151b;
+    --shadow: 0 16px 38px rgba(0, 0, 0, 0.25);
+}
+
+.CodeMirror.sql-theme-dark {
+    background: #18262f !important;
+    border-color: #536974;
+    color: #eef4f6 !important;
+}
+
+.CodeMirror.sql-theme-dark .CodeMirror-scroll,
+.CodeMirror.sql-theme-dark .CodeMirror-lines {
+    background: #18262f !important;
+}
+
+.CodeMirror.sql-theme-dark .CodeMirror-gutters {
+    background: #22343e !important;
+    border-color: #536974;
+}
+
+.CodeMirror.sql-theme-dark .CodeMirror-linenumber {
+    color: #c4d2d8;
+}
+
+body.theme-dark h2,
+body.theme-dark h3,
+body.theme-dark h4,
+body.theme-dark h5,
+body.theme-dark sql-exercise .sqlExQuestion {
+    color: #f5dba5;
+}
+
+body.theme-dark sql-exercise .returnOkay {
+    color: #8fe0bc;
+}
+
+body.theme-dark sql-exercise .returnError {
+    color: #ffad95;
+}
+
+@media (max-width: 680px) {
+    .theme-toggle {
+        right: 1rem;
+        top: 1rem;
+    }
+
+    .header-product::after {
+        display: none;
+    }
+
+    .institution-label {
+        letter-spacing: 0.08em;
+    }
+
+    #intro .grid-item {
+        display: block;
+    }
+
+    #intro img {
+        margin-bottom: 1.25rem;
+        max-height: 220px;
+    }
+
+    body > .container > .grid > .grid-item {
+        border-radius: 12px;
+        padding: 1rem;
+    }
+
+    .site-footer {
+        justify-content: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}

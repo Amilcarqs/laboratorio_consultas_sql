@@ -17,6 +17,7 @@ function loadData(dbFile) {
        } else {
          console.log('DB initialization failed');
        }
+
     }
 
     worker.postMessage({
@@ -26,6 +27,67 @@ function loadData(dbFile) {
     });
   }
   xhr.send();
+}
+
+function setupThemeToggle() {
+  var header = document.querySelector('.header-product');
+  if (!header || document.querySelector('.theme-toggle')) { return; }
+
+  var toggle = document.createElement('button');
+  toggle.className = 'theme-toggle';
+  toggle.type = 'button';
+  toggle.setAttribute('aria-pressed', 'false');
+  toggle.innerHTML = '<span aria-hidden="true">☾</span><span>Modo oscuro</span>';
+
+  var applyTheme = (isDark) => {
+    document.body.classList.toggle('theme-dark', isDark);
+    document.querySelectorAll('.CodeMirror').forEach((editor) => {
+      editor.classList.toggle('sql-theme-dark', isDark);
+      applyEditorTheme(editor, isDark);
+    });
+    toggle.setAttribute('aria-pressed', String(isDark));
+    toggle.innerHTML = isDark
+      ? '<span aria-hidden="true">☀</span><span>Modo claro</span>'
+      : '<span aria-hidden="true">☾</span><span>Modo oscuro</span>';
+  };
+
+  var savedTheme = null;
+  try {
+    savedTheme = window.localStorage.getItem('sql-mystery-theme');
+  } catch (error) {
+    savedTheme = null;
+  }
+  var prefersDark = window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(savedTheme ? savedTheme === 'dark' : prefersDark);
+
+  toggle.addEventListener('click', () => {
+    var isDark = !document.body.classList.contains('theme-dark');
+    applyTheme(isDark);
+    try {
+      window.localStorage.setItem('sql-mystery-theme', isDark ? 'dark' : 'light');
+    } catch (error) {
+      // The visual preference still applies when storage is unavailable.
+    }
+  });
+  header.appendChild(toggle);
+}
+
+document.addEventListener('DOMContentLoaded', setupThemeToggle);
+
+function applyEditorTheme(editor, isDark) {
+  var surface = isDark ? '#18262f' : '#ffffff';
+  var gutter = isDark ? '#22343e' : '#e8edf0';
+  editor.style.setProperty('background-color', surface, 'important');
+  editor.querySelector('.CodeMirror-scroll').style.setProperty(
+    'background-color', surface, 'important'
+  );
+  editor.querySelector('.CodeMirror-lines').style.setProperty(
+    'background-color', surface, 'important'
+  );
+  editor.querySelector('.CodeMirror-gutters').style.setProperty(
+    'background-color', gutter, 'important'
+  );
 }
 
 function query(sql, cb, err_cb) {
@@ -242,14 +304,22 @@ class sqlExercise extends HTMLElement {
       indentWithTabs: true,
       smartIndent: true,
       lineNumbers: true,
-      textWrapping: false,
+      lineWrapping: true,
       autoRefresh: true,
-      theme: 'neat',
+      theme: 'default',
       viewportMargin: Infinity
     });
 
     editor.setSize('100%', 'auto');
     editor.refresh();
+    editor.getWrapperElement().classList.toggle(
+      'sql-theme-dark',
+      document.body.classList.contains('theme-dark')
+    );
+    applyEditorTheme(
+      editor.getWrapperElement(),
+      document.body.classList.contains('theme-dark')
+    );
 
     var runButton = `<input class="sql-exercise-submit" type="submit" value="Ejecutar &#x21e9;" disabled>`;
     inputArea.insertAdjacentHTML("beforeend", runButton);
