@@ -30,8 +30,8 @@ function loadData(dbFile) {
 }
 
 function setupThemeToggle() {
-  var header = document.querySelector('.header-product');
-  if (!header || document.querySelector('.theme-toggle')) { return; }
+  var footer = document.querySelector('.site-footer');
+  if (!footer || document.querySelector('.theme-toggle')) { return; }
 
   var toggle = document.createElement('button');
   toggle.className = 'theme-toggle';
@@ -70,7 +70,7 @@ function setupThemeToggle() {
       // The visual preference still applies when storage is unavailable.
     }
   });
-  header.appendChild(toggle);
+  footer.appendChild(toggle);
 }
 
 document.addEventListener('DOMContentLoaded', setupThemeToggle);
