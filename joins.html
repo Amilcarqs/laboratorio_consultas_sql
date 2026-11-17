@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html lang="es">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+    <meta charset="UTF-8">
+    <title>Aprende JOIN con una biblioteca</title>
+    <meta name="description" content="Lección interactiva de INNER JOIN, LEFT JOIN y CROSS JOIN con una base de datos de biblioteca.">
+
+    <link rel="stylesheet" href="assets/vendor/orangeline/css/orangeline.min.css">
+    <link rel="stylesheet" href="assets/vendor/codemirror/css/codemirror.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/neat.css">
+    <link rel="stylesheet" href="css/offline.css">
+
+    <script src="assets/vendor/webcomponents/custom-elements.min.js"></script>
+    <script src="scripts/codemirror.js"></script>
+    <script src="scripts/codemirrorsql.js"></script>
+    <script src="scripts/autorefresh.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
+        window.onload = () => loadData('biblioteca-joins.db');
+    </script>
+</head>
+
+<body>
+    <header class="header-product">
+        <h1 class="product-logo product-logo-large">Aprende JOIN con una biblioteca</h1>
+    </header>
+
+    <main class="container">
+        <div class="grid">
+            <section class="grid-item">
+                <h2>¿Por qué necesitamos JOIN?</h2>
+                <p>Una base de datos separa la información en tablas para evitar repetir datos. Cuando una pregunta necesita datos de varias tablas, usamos <strong>JOIN</strong> para relacionarlas mediante columnas que tienen valores en común.</p>
+                <p>En esta lección trabajarás con cuatro tablas: autores, libros, estudiantes y préstamos.</p>
+                <h3>Esquema de la biblioteca</h3>
+                <img src="diagrama_bibliteca.png" alt="Diagrama de la base de datos de biblioteca con cuatro tablas: autores, libros, estudiantes y préstamos.">
+                <p><code>libros.autor_id</code>, <code>prestamos.libro_id</code> y <code>prestamos.estudiante_id</code> son claves foráneas que apuntan a otra tabla.</p>
+            </section>
+        </div>
+
+        <div class="grid">
+            <section class="grid-item">
+                <h2>1. INNER JOIN: solo coincidencias</h2>
+                <p>Un <code>INNER JOIN</code> devuelve las filas que tienen una coincidencia en ambas tablas. Puedes omitir la palabra <code>INNER</code> y escribir solamente <code>JOIN</code>.</p>
+                <sql-exercise data-question="Muestra cada libro junto con el nombre de su autor." data-comment="Relaciona libros.autor_id con autores.id usando ON." data-default-text="SELECT libros.titulo, autores.nombre
+FROM libros
+JOIN autores
+  ON libros.autor_id = autores.id;"></sql-exercise>
+                <p>Los alias hacen la consulta más corta y fácil de leer:</p>
+                <sql-exercise data-question="Muestra el título y el autor de cada libro usando alias." data-comment="Prueba con l para libros y a para autores." data-default-text="SELECT l.titulo, a.nombre AS autor
+FROM libros AS l
+JOIN autores AS a
+  ON l.autor_id = a.id;"></sql-exercise>
+            </section>
+        </div>
+
+        <div class="grid">
+            <section class="grid-item">
+                <h2>2. LEFT JOIN: conserva todas las filas de la izquierda</h2>
+                <p><code>LEFT JOIN</code> conserva todas las filas de la tabla escrita después de <code>FROM</code>, aunque no tengan coincidencia. Cuando falta un dato relacionado, SQLite muestra <code>NULL</code>.</p>
+                <sql-exercise data-question="Muestra todos los libros y, si existe, la fecha de su préstamo." data-comment="Empieza desde libros y usa LEFT JOIN con prestamos. El libro sin préstamo también debe aparecer." data-default-text="SELECT libros.titulo, prestamos.fecha_prestamo
+FROM libros
+LEFT JOIN prestamos
+  ON libros.id = prestamos.libro_id;"></sql-exercise>
+                <p>También puedes unir tres tablas para saber quién tiene cada libro:</p>
+                <sql-exercise data-question="Muestra el libro, el estudiante que lo tiene y la fecha del préstamo." data-comment="Une libros con prestamos y luego prestamos con estudiantes." data-default-text="SELECT l.titulo, e.nombre AS estudiante, p.fecha_prestamo
+FROM libros AS l
+LEFT JOIN prestamos AS p
+  ON l.id = p.libro_id
+LEFT JOIN estudiantes AS e
+  ON p.estudiante_id = e.id;"></sql-exercise>
+            </section>
+        </div>
+
+        <div class="grid">
+            <section class="grid-item">
+                <h2>3. CROSS JOIN: todas las combinaciones</h2>
+                <p><code>CROSS JOIN</code> combina cada fila de una tabla con cada fila de la otra. No necesita una condición <code>ON</code>; por eso el resultado crece rápidamente. Úsalo solo cuando realmente necesitas todas las combinaciones.</p>
+                <sql-exercise data-question="Genera una lista de posibles pares entre estudiantes y autores." data-comment="Selecciona el nombre del estudiante y el nombre del autor desde las tablas estudiantes y autores. Limita el resultado para explorarlo." data-default-text="SELECT estudiantes.nombre AS estudiante, autores.nombre AS autor
+FROM estudiantes
+CROSS JOIN autores
+LIMIT 8;"></sql-exercise>
+            </section>
+        </div>
+
+        <!--
+        <div class="grid">
+            <section class="grid-item">
+                <h2>Ahora te toca a ti</h2>
+                <p>Escribe consultas usando las relaciones del esquema. Intenta predecir el resultado antes de ejecutar cada una.</p>
+                <sql-exercise data-question="¿Qué estudiantes tienen un préstamo activo? Muestra su nombre y el título del libro." data-comment="Un préstamo activo no tiene fecha_devolucion. Usa JOIN entre estudiantes, prestamos y libros, y filtra con IS NULL." data-default-text="" data-solution="SELECT e.nombre AS estudiante, l.titulo
+FROM estudiantes AS e
+JOIN prestamos AS p ON e.id = p.estudiante_id
+JOIN libros AS l ON l.id = p.libro_id
+WHERE p.fecha_devolucion IS NULL;"></sql-exercise>
+                <sql-exercise data-question="Muestra todos los autores, incluso los que todavía no tienen un libro registrado." data-comment="Parte de autores y usa LEFT JOIN. Selecciona el nombre del autor y el título del libro." data-default-text="" data-solution="SELECT a.nombre AS autor, l.titulo
+FROM autores AS a
+LEFT JOIN libros AS l ON a.id = l.autor_id;"></sql-exercise>
+            </section>
+        </div>
+        -->
+    </main>
+
+    <footer class="site-footer">
+        <img src="assets/img/database-detective-logo.svg" alt="" aria-hidden="true">
+        <div>
+            <strong>Base de Datos I</strong>
+            <span>Univ. Amilcar Quispe Santos</span>
+        </div>
+    </footer>
+
+    <script src="assets/vendor/orangeline/js/orangeline.js"></script>
+</body>
+
+</html>

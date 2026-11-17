@@ -10,6 +10,10 @@ If you just want to solve the mystery, go to [mystery.knightlab.com](https://mys
 
 The website's styles, scripts, images, and database are included locally. With XAMPP, start Apache and open `http://localhost/sql-mysteries-master/`. After the project files are on your computer, the website and its SQL exercises do not require an internet connection.
 
+## Clase de JOIN
+
+La página independiente [`joins.html`](joins.html) contiene una lección interactiva en español sobre `INNER JOIN`, `LEFT JOIN` y `CROSS JOIN`. Usa la base [`biblioteca-joins.db`](biblioteca-joins.db), cuya estructura y datos se pueden recrear con [`biblioteca-joins.sql`](biblioteca-joins.sql). Con XAMPP, abre `http://localhost/laboratorio_consultas_sql/joins.html`.
+
 ## What Else is Here?
 
 Before we built the web-based version, we designed this for people to download and solve on their own computer. If you're interested in that, read on.
