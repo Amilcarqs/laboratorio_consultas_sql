@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aprende vistas en SQLite</title>
+    <meta name="description" content="Aprende a crear, consultar, reemplazar y eliminar vistas en SQLite con ejercicios interactivos basados en el misterio SQL.">
+
+    <link rel="stylesheet" href="assets/vendor/orangeline/css/orangeline.min.css">
+    <link rel="stylesheet" href="assets/vendor/codemirror/css/codemirror.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/neat.css">
+    <link rel="stylesheet" href="css/offline.css">
+
+    <script src="assets/vendor/webcomponents/custom-elements.min.js"></script>
+    <script src="scripts/codemirror.js"></script>
+    <script src="scripts/codemirrorsql.js"></script>
+    <script src="scripts/autorefresh.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
+        window.onload = () => loadData('sql-murder-mystery.db');
+    </script>
+</head>
+
+<body>
+    <header class="header-product">
+        <h1 class="product-logo product-logo-large">Aprende vistas en SQLite</h1>
+    </header>
+
+    <main class="container">
+        <div class="grid">
+            <section class="grid-item">
+                <h2>¿Qué es una vista?</h2>
+                <p>Una <strong>vista</strong> es una consulta <code>SELECT</code> guardada en la base de datos y presentada como si fuera una tabla. No guarda una copia de las filas: al consultar la vista, SQLite ejecuta su consulta sobre las tablas originales.</p>
+                <p>En esta lección usaremos <code>crime_scene_report</code> de la base del misterio para guardar y reutilizar el informe del crimen ocurrido en SQL City el 15 de enero de 2018.</p>
+                <p><strong>Antes de empezar:</strong> los cambios de estos ejercicios viven en la copia de la base que carga la página. El botón «Restablecer» solo limpia el editor; vuelve a cargar la página para empezar de nuevo con la base original.</p>
+            </section>
+        </div>
+
+        <div class="grid">
+            <section class="grid-item">
+                <h2>1. Crear una vista</h2>
+                <p>Usa <code>CREATE VIEW nombre AS SELECT ...</code> para guardar una consulta. La vista de este ejemplo reúne el tipo, la fecha, la ciudad y la descripción del informe inicial.</p>
+                <sql-exercise
+                    data-question="Ejemplo: crea una vista y consulta sus columnas fecha, tipo y ciudad."
+                    data-comment="El SQL está escrito para que puedas ejecutarlo y ver el resultado. DROP VIEW IF EXISTS permite repetir el ejemplo."
+                    data-default-text="DROP VIEW IF EXISTS vista_informe_del_crimen;
+CREATE VIEW vista_informe_del_crimen AS
+SELECT date AS fecha,
+       type AS tipo,
+       city AS ciudad,
+       description AS descripcion
+FROM crime_scene_report
+WHERE date = 20180115
+  AND city = 'SQL City';
+
+SELECT fecha, tipo, ciudad
+FROM vista_informe_del_crimen;"></sql-exercise>
+                <p>Si la vista ya existe, otro <code>CREATE VIEW</code> con el mismo nombre devuelve un error. En SQLite puedes usar <code>CREATE VIEW IF NOT EXISTS</code> para evitar ese error, pero eso <strong>no</strong> cambia una vista que ya estaba creada.</p>
+            </section>
+        </div>
+
+        <div class="grid">
+            <section class="grid-item">
+                <h2>2. Consultar y filtrar una vista</h2>
+                <p>Una vez creada, puedes usarla en <code>FROM</code> como usarías una tabla. También puedes seleccionar algunas columnas y añadir filtros a la consulta.</p>
+                <sql-exercise
+                    data-question="Consulta el informe desde la vista y filtra por ciudad y fecha."
+                    data-comment="La vista expone las columnas fecha, tipo, ciudad y descripcion. No necesitas volver a escribir la consulta original."
+                    data-default-text="SELECT fecha, tipo
+FROM vista_informe_del_crimen
+WHERE ciudad = 'SQL City'
+  AND fecha = 20180115;"></sql-exercise>
+            </section>
+        </div>
+
+        <div class="grid">
+            <section class="grid-item">
+                <h2>3. Reemplazar una vista</h2>
+                <p>SQLite no admite <code>CREATE OR REPLACE VIEW</code>. Para cambiar la consulta guardada, elimina la vista y créala otra vez con la nueva definición. En una aplicación real, considera los objetos que dependen de esa vista antes de eliminarla.</p>
+                <sql-exercise
+                    data-question="Reemplaza la vista para incluir también la descripción y muestra el comienzo del texto."
+                    data-comment="DROP VIEW IF EXISTS permite repetir el ejercicio. La vista se vuelve a crear con la nueva definición antes de consultarla."
+                    data-default-text="DROP VIEW IF EXISTS vista_informe_del_crimen;
+CREATE VIEW vista_informe_del_crimen AS
+SELECT date AS fecha,
+       type AS tipo,
+       city AS ciudad,
+       description AS descripcion
+FROM crime_scene_report
+WHERE date = 20180115
+  AND city = 'SQL City';
+
+SELECT tipo, substr(descripcion, 1, 80) AS inicio
+FROM vista_informe_del_crimen;"></sql-exercise>
+            </section>
+        </div>
+
+        <div class="grid">
+            <section class="grid-item">
+                <h2>4. Eliminar una vista</h2>
+                <p>Cuando ya no necesites una vista, usa <code>DROP VIEW</code>. La tabla original y sus datos no se eliminan. La consulta siguiente comprueba en el catálogo de SQLite que la vista ya no existe.</p>
+                <sql-exercise
+                    data-question="Elimina vista_informe_del_crimen y comprueba que ya no aparece en sqlite_master."
+                    data-comment="DROP VIEW IF EXISTS no falla si la vista ya había sido eliminada."
+                    data-default-text="DROP VIEW IF EXISTS vista_informe_del_crimen;
+
+SELECT COUNT(*) AS vistas_restantes
+FROM sqlite_master
+WHERE type = 'view'
+  AND name = 'vista_informe_del_crimen';"></sql-exercise>
+            </section>
+        </div>
+
+        <div class="grid">
+            <section class="grid-item">
+                <h2>¿Qué límites tienen las vistas?</h2>
+                <ul>
+                    <li>Una vista guarda una consulta, no los resultados ni una copia de los datos.</li>
+                    <li>Si cambian las filas de las tablas originales, las consultas a la vista reflejan esos cambios.</li>
+                    <li>En SQLite, una vista no se puede modificar directamente con <code>INSERT</code>, <code>UPDATE</code> o <code>DELETE</code> si no se ha definido un disparador <code>INSTEAD OF</code> para esa operación.</li>
+                    <li>La vista solo expone las columnas que selecciona su definición.</li>
+                </ul>
+                <p>Las vistas ayudan a reutilizar consultas, ocultar columnas que no hacen falta y simplificar consultas frecuentes, pero no sustituyen el diseño de las tablas ni aceleran por sí solas una consulta.</p>
+            </section>
+        </div>
+
+        <div class="grid">
+            <section class="grid-item">
+                <h2>Práctica</h2>
+                <p>Prueba por tu cuenta lo aprendido. Primero crea una vista con el primer editor; después consúltala en el segundo.</p>
+                <sql-exercise
+                    data-question="1. Crea una vista llamada vista_informes_enero con la fecha y el tipo de los informes de SQL City de enero de 2018. Al final, consulta sqlite_master para confirmar que se creó."
+                    data-comment="Pista: el rango de fechas va desde 20180101 inclusive hasta 20180201 exclusive."
+                    data-default-text=""></sql-exercise>
+                <sql-exercise
+                    data-question="2. Consulta vista_informes_enero para mostrar sus columnas fecha y tipo, ordenadas por fecha."
+                    data-comment="Ejecuta primero la consulta del editor anterior para crear la vista."
+                    data-default-text=""></sql-exercise>
+                <p>Al terminar, recarga la página para eliminar las vistas de práctica y volver a cargar la base original.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <img src="assets/img/database-detective-logo.svg" alt="" aria-hidden="true">
+        <div>
+            <strong>Base de Datos I</strong>
+            <span>Univ. Amilcar Quispe Santos</span>
+        </div>
+    </footer>
+
+    <script src="assets/vendor/orangeline/js/orangeline.js"></script>
+</body>
+
+</html>

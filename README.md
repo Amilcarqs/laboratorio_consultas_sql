@@ -14,6 +14,10 @@ The website's styles, scripts, images, and database are included locally. With X
 
 La página independiente [`joins.html`](joins.html) contiene una lección interactiva en español sobre `INNER JOIN`, `LEFT JOIN` y `CROSS JOIN`. Usa la base [`biblioteca-joins.db`](biblioteca-joins.db), cuya estructura y datos se pueden recrear con [`biblioteca-joins.sql`](biblioteca-joins.sql). Con XAMPP, abre `http://localhost/laboratorio_consultas_sql/joins.html`.
 
+## Clase de vistas en SQLite
+
+La página independiente [`vistas.html`](vistas.html) enseña a crear, consultar, reemplazar y eliminar vistas con ejercicios basados en [`sql-murder-mystery.db`](sql-murder-mystery.db). Con XAMPP, abre `http://localhost/laboratorio_consultas_sql/vistas.html`.
+
 ## What Else is Here?
 
 Before we built the web-based version, we designed this for people to download and solve on their own computer. If you're interested in that, read on.
